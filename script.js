@@ -260,3 +260,5 @@ function startGame() {
 // Tombol
 startBtn.addEventListener("click", startGame);
 restartBtn.addEventListener("click", startGame);
+
+chibi.src = "assets/chibi_idle.png";
