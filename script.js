@@ -6,7 +6,7 @@ let status = document.getElementById("status");
 
 let score = 0;
 let isJumping = false;
-let gameStarted = false;
+let gameStarted = false; // obstacle baru jalan setelah lompat/tap
 
 // -----------------------------------
 // Fungsi lompat
@@ -34,6 +34,8 @@ function jump() {
 // -----------------------------------
 // Event listener lompat
 // -----------------------------------
+
+// Keyboard (PC)
 document.addEventListener("keydown", function(e) {
   if(e.code === "Space") {
     if(!isJumping) {
@@ -46,6 +48,7 @@ document.addEventListener("keydown", function(e) {
   }
 });
 
+// Klik / tap layar (HP)
 document.addEventListener("click", function() {
   if(!isJumping) {
     jump();
@@ -60,14 +63,16 @@ document.addEventListener("click", function() {
 // Fungsi obstacle jalan
 // -----------------------------------
 function moveObstacle() {
-  let obstaclePos = 600;
+  let obstaclePos = 600; // posisi awal sama seperti CSS
+  obstacle.style.right = obstaclePos + "px"; // pastikan sesuai
+
   let moveInterval = setInterval(() => {
     obstaclePos -= 5;
     obstacle.style.right = obstaclePos + "px";
 
     let chibiLeft = 50;
     let chibiBottom = parseInt(chibi.style.bottom || 20);
-    
+
     // cek tabrakan
     if(obstaclePos <= chibiLeft + 40 && obstaclePos >= chibiLeft && chibiBottom <= 40) {
       status.textContent = "Game Over!";
@@ -81,4 +86,4 @@ function moveObstacle() {
       scoreDisplay.textContent = score;
     }
   }, 20);
-      }
+                            }
