@@ -1,12 +1,12 @@
-// Ambil elemen dari HTML
+// Ambil elemen HTML
 let chibi = document.getElementById("chibi");
 let obstacle = document.getElementById("obstacle");
 let scoreDisplay = document.getElementById("score");
 let status = document.getElementById("status");
 
-let score = 0;         // skor awal
-let isJumping = false; // status lompat
-let gameStarted = false; // untuk mulai obstacle
+let score = 0;
+let isJumping = false;
+let gameStarted = false;
 
 // -----------------------------------
 // Fungsi lompat
@@ -17,7 +17,6 @@ function jump() {
     let bottom = parseInt(chibi.style.bottom || 20);
     if(bottom >= 100) { // tinggi maksimal lompat
       clearInterval(upInterval);
-      // turun
       let downInterval = setInterval(() => {
         bottom = parseInt(chibi.style.bottom);
         if(bottom <= 20) {
@@ -35,13 +34,10 @@ function jump() {
 // -----------------------------------
 // Event listener lompat
 // -----------------------------------
-
-// Keyboard (PC)
 document.addEventListener("keydown", function(e) {
   if(e.code === "Space") {
     if(!isJumping) {
       jump();
-
       if(!gameStarted) {
         moveObstacle();
         gameStarted = true;
@@ -50,11 +46,9 @@ document.addEventListener("keydown", function(e) {
   }
 });
 
-// Klik / tap layar (HP)
 document.addEventListener("click", function() {
   if(!isJumping) {
     jump();
-
     if(!gameStarted) {
       moveObstacle();
       gameStarted = true;
@@ -66,24 +60,25 @@ document.addEventListener("click", function() {
 // Fungsi obstacle jalan
 // -----------------------------------
 function moveObstacle() {
-  let obstaclePos = 600; // mulai dari kanan container
+  let obstaclePos = 600;
   let moveInterval = setInterval(() => {
-    obstaclePos -= 5; // bergerak ke kiri
+    obstaclePos -= 5;
     obstacle.style.right = obstaclePos + "px";
 
-    // cek tabrakan
     let chibiLeft = 50;
     let chibiBottom = parseInt(chibi.style.bottom || 20);
+    
+    // cek tabrakan
     if(obstaclePos <= chibiLeft + 40 && obstaclePos >= chibiLeft && chibiBottom <= 40) {
       status.textContent = "Game Over!";
       clearInterval(moveInterval);
     }
 
-    // reset obstacle kalau sudah lewat kiri
+    // reset obstacle
     if(obstaclePos <= -20) {
-      obstaclePos = 600; // ulang posisi
-      score += 10; // tambah skor
+      obstaclePos = 600;
+      score += 10;
       scoreDisplay.textContent = score;
     }
   }, 20);
-}
+      }
