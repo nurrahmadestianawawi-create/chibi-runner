@@ -70,8 +70,8 @@ document.addEventListener("click", () => {
 // Fungsi main / start
 // -------------------------
 function startGame() {
-  startBtn.style.display = "none";
-  restartBtn.style.display = "none";
+  startBtn.style.display = "none";   // hilang saat game jalan
+  restartBtn.style.display = "none"; // sembunyi
   status.textContent = "";
   gameStarted = true;
   score = 0;
@@ -91,7 +91,7 @@ function startGame() {
        obstaclePos > chibiLeft &&
        chibiBottom < 30) {
       status.textContent = "Game Over!";
-      restartBtn.style.display = "inline";
+      restartBtn.style.display = "inline"; // tampilkan tombol ulang di tengah
       gameStarted = false;
       cancelAnimationFrame(moveAnimation);
       return;
@@ -113,5 +113,4 @@ function startGame() {
 // Tombol
 // -------------------------
 startBtn.addEventListener("click", startGame);
-
 restartBtn.addEventListener("click", startGame);
