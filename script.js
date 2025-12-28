@@ -10,10 +10,16 @@ let isJumping = false; // status lompat
 // -----------------------------------
 // Fungsi lompat
 // -----------------------------------
+// Untuk keyboard (PC)
 document.addEventListener("keydown", function(e) {
-  if(e.code === "Space") { // tekan spasi untuk lompat
+  if(e.code === "Space") {
     if(!isJumping) jump();
   }
+});
+
+// Untuk layar sentuh / klik
+document.addEventListener("click", function() {
+  if(!isJumping) jump();
 });
 
 function jump() {
