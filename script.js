@@ -3,22 +3,31 @@
 // -------------------------
 const body = document.body;
 
+// Container
 const container = document.createElement("div");
 container.style.position = "relative";
 container.style.width = "90vw";
 container.style.maxWidth = "1200px";
 container.style.height = "calc(90vw / 3)";
 container.style.overflow = "hidden";
+container.style.background = "#ccefff"; // fallback warna langit
+container.style.border = "2px solid #000";
 body.appendChild(container);
 
-// Background bergerak
+// Background bergerak (pakai gambar jika ada)
 const bg = document.createElement("div");
 bg.style.position = "absolute";
 bg.style.width = "200%";
 bg.style.height = "100%";
-bg.style.backgroundImage = "url('assets/background.png')";
-bg.style.backgroundRepeat = "repeat-x";
-bg.style.backgroundSize = "cover";
+bg.style.backgroundColor = "#ccefff"; // default
+// Coba pakai gambar background, fallback warna jika gagal
+const bgImg = new Image();
+bgImg.src = "assets/background.png";
+bgImg.onload = () => {
+  bg.style.backgroundImage = "url('assets/background.png')";
+  bg.style.backgroundRepeat = "repeat-x";
+  bg.style.backgroundSize = "cover";
+};
 container.appendChild(bg);
 
 // Ground
@@ -30,14 +39,15 @@ ground.style.height = "5%";
 ground.style.background = "#654321";
 container.appendChild(ground);
 
-// Chibi sprite
+// Chibi karakter
 const chibi = document.createElement("img");
-chibi.src = "assets/chibi_idle.png";
+chibi.src = "assets/chibi_idle.png"; // fallback kalau tidak ada
 chibi.style.position = "absolute";
 chibi.style.bottom = "5%";
 chibi.style.left = "5%";
 chibi.style.width = "6%";
 chibi.style.height = "30%";
+chibi.style.transition = "bottom 0.05s linear";
 container.appendChild(chibi);
 
 // Obstacle
@@ -49,7 +59,7 @@ obstacle.style.width = "4%";
 obstacle.style.height = "30%";
 container.appendChild(obstacle);
 
-// Power-up
+// Power-up coin
 const coin = document.createElement("img");
 coin.src = "assets/coin.png";
 coin.style.position = "absolute";
@@ -120,7 +130,7 @@ function jump() {
   jumpSound.play();
   chibi.src = "assets/chibi_jump.png";
 
-  const maxHeight = 50; 
+  const maxHeight = 50;
   const jumpSpeed = 1.8;
 
   function up() {
@@ -223,7 +233,7 @@ function startGame() {
     if (
       coinPos < chibiLeft + 6 &&
       coinPos > chibiLeft &&
-      chibiBottom + 5 >= 35 // bottom coin
+      chibiBottom + 5 >= 35
     ) {
       score += 20;
       scoreText.querySelector("#score").textContent = score;
