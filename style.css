@@ -1,13 +1,55 @@
-/* Full screen canvas */
-body, html {
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ccefff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background: #87ceeb; /* fallback biru langit */
 }
 
-canvas {
-  display: block;
-  margin: 0 auto;
-  background: #87ceeb;
+.game-container {
+  position: relative;
+  width: 90vw;       /* sesuaikan layar */
+  max-width: 1200px; /* tidak terlalu lebar di monitor */
+  height: calc(90vw / 3); /* proporsional 1:3 */
+  background-color: #fff;
+  border: 2px solid #000;
+  overflow: hidden;
 }
+
+#ground {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 5%; /* proporsional dengan container */
+  background-color: #654321;
+}
+
+.chibi {
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+  width: 6%;
+  height: 30%;
+  background-color: red;
+}
+
+.obstacle {
+  position: absolute;
+  bottom: 5%;
+  width: 4%;
+  height: 30%;
+  background-color: green;
+}
+
+/* Tombol di tengah */
+#startBtn, #restartBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1.5% 3%;
+  font-size: 2vw;
+  cursor: pointer;
+  }
