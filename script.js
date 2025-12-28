@@ -86,14 +86,15 @@ function jump() {
   if (isJumping) return;
   isJumping = true;
 
-  const maxHeight = 60; // % container
+  const maxHeight = 35; // % container
+  const jumpSpeed = 0.7; // % per frame, lebih kecil = lambat & lebih presisi
 
   function up() {
     if (chibiBottom >= maxHeight) {
       down();
       return;
     }
-    chibiBottom += 2; // naik cepat
+    chibiBottom += jumpSpeed;
     chibi.style.bottom = (5 + chibiBottom) + "%";
     requestAnimationFrame(up);
   }
@@ -109,7 +110,7 @@ function jump() {
       }
       return;
     }
-    chibiBottom -= 2;
+    chibiBottom -= jumpSpeed;
     chibi.style.bottom = (5 + chibiBottom) + "%";
     requestAnimationFrame(down);
   }
