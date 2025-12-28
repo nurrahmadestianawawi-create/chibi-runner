@@ -6,22 +6,11 @@ let status = document.getElementById("status");
 
 let score = 0;         // skor awal
 let isJumping = false; // status lompat
+let gameStarted = false; // untuk mulai obstacle
 
 // -----------------------------------
 // Fungsi lompat
 // -----------------------------------
-// Untuk keyboard (PC)
-document.addEventListener("keydown", function(e) {
-  if(e.code === "Space") {
-    if(!isJumping) jump();
-  }
-});
-
-// Untuk layar sentuh / klik
-document.addEventListener("click", function() {
-  if(!isJumping) jump();
-});
-
 function jump() {
   isJumping = true;
   let upInterval = setInterval(() => {
@@ -44,12 +33,42 @@ function jump() {
 }
 
 // -----------------------------------
+// Event listener lompat
+// -----------------------------------
+
+// Keyboard (PC)
+document.addEventListener("keydown", function(e) {
+  if(e.code === "Space") {
+    if(!isJumping) {
+      jump();
+
+      if(!gameStarted) {
+        moveObstacle();
+        gameStarted = true;
+      }
+    }
+  }
+});
+
+// Klik / tap layar (HP)
+document.addEventListener("click", function() {
+  if(!isJumping) {
+    jump();
+
+    if(!gameStarted) {
+      moveObstacle();
+      gameStarted = true;
+    }
+  }
+});
+
+// -----------------------------------
 // Fungsi obstacle jalan
 // -----------------------------------
 function moveObstacle() {
   let obstaclePos = 600; // mulai dari kanan container
   let moveInterval = setInterval(() => {
-    obstaclePos -= 5; // obstacle bergerak ke kiri
+    obstaclePos -= 5; // bergerak ke kiri
     obstacle.style.right = obstaclePos + "px";
 
     // cek tabrakan
@@ -66,8 +85,5 @@ function moveObstacle() {
       score += 10; // tambah skor
       scoreDisplay.textContent = score;
     }
-  }, 20); // jalannya obstacle tiap 20ms
+  }, 20);
 }
-
-// panggil fungsi obstacle jalan
-moveObstacle();
