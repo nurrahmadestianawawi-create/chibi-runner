@@ -6,66 +6,76 @@ let status = document.getElementById("status");
 let score = 0;
 let isJumping = false;
 let gameStarted = false;
-let obstaclePos = 600; // posisi start obstacle
+let obstaclePos = 600;
 
-// -----------------------------------
-// Lompat
-// -----------------------------------
+// -------------------------
+// Fungsi lompat
+// -------------------------
 function jump() {
+  if(isJumping) return;
   isJumping = true;
-  let upInterval = setInterval(() => {
-    let bottom = parseInt(chibi.style.bottom || 20);
-    if(bottom >= 100) {
-      clearInterval(upInterval);
-      let downInterval = setInterval(() => {
-        bottom = parseInt(chibi.style.bottom);
-        if(bottom <= 20) {
-          clearInterval(downInterval);
-          isJumping = false;
-        }
-        chibi.style.bottom = (bottom - 5) + "px";
-      }, 20);
-    } else {
-      chibi.style.bottom = (bottom + 5) + "px";
+
+  let bottom = parseInt(chibi.style.bottom || 20);
+  let maxHeight = 130; // tinggi lompat fix
+
+  function up() {
+    if(bottom >= maxHeight) {
+      down();
+      return;
     }
-  }, 20);
+    bottom += 5;
+    chibi.style.bottom = bottom + "px";
+    requestAnimationFrame(up);
+  }
+
+  function down() {
+    if(bottom <= 20) {
+      chibi.style.bottom = "20px";
+      isJumping = false;
+      return;
+    }
+    bottom -= 5;
+    chibi.style.bottom = bottom + "px";
+    requestAnimationFrame(down);
+  }
+
+  requestAnimationFrame(up);
 }
 
-// -----------------------------------
-// Event lompat (PC & HP)
-// -----------------------------------
-document.addEventListener("keydown", function(e) {
-  if(e.code === "Space" && !isJumping) {
-    jump();
-    if(!gameStarted) startGame();
-  }
+// -------------------------
+// Event listener lompat
+// -------------------------
+document.addEventListener("keydown", e => {
+  if(e.code === "Space") jump();
+  if(!gameStarted) startGame();
 });
 
-document.addEventListener("click", function() {
-  if(!isJumping) {
-    jump();
-    if(!gameStarted) startGame();
-  }
+document.addEventListener("click", () => {
+  jump();
+  if(!gameStarted) startGame();
 });
 
-// -----------------------------------
-// Mulai obstacle
-// -----------------------------------
+// -------------------------
+// Fungsi obstacle jalan
+// -------------------------
 function startGame() {
   gameStarted = true;
+  obstaclePos = 600;
   obstacle.style.left = obstaclePos + "px";
 
-  let moveInterval = setInterval(() => {
-    obstaclePos -= 5; // gerak ke kiri
+  function move() {
+    obstaclePos -= 3; // lebih pelan biar pas timing
     obstacle.style.left = obstaclePos + "px";
 
     let chibiLeft = 50;
     let chibiBottom = parseInt(chibi.style.bottom || 20);
 
-    // cek tabrakan
-    if(obstaclePos <= chibiLeft + 40 && obstaclePos >= chibiLeft && chibiBottom <= 40) {
+    // cek tabrakan dengan hitbox aman
+    if(obstaclePos < chibiLeft + 30 &&
+       obstaclePos > chibiLeft &&
+       chibiBottom < 30) {
       status.textContent = "Game Over!";
-      clearInterval(moveInterval);
+      return; // stop loop
     }
 
     // reset obstacle
@@ -74,5 +84,9 @@ function startGame() {
       score += 10;
       scoreDisplay.textContent = score;
     }
-  }, 20);
-    }
+
+    requestAnimationFrame(move);
+  }
+
+  requestAnimationFrame(move);
+}
