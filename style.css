@@ -10,9 +10,8 @@ body {
 
 .game-container {
   position: relative;
-  width: 90vw;       /* sesuaikan layar */
-  max-width: 1200px; /* tidak terlalu lebar di monitor */
-  height: calc(90vw / 3); /* proporsional 1:3 */
+  width: 900px;   /* layar lebih besar */
+  height: 300px;  /* layar lebih besar */
   background-color: #fff;
   border: 2px solid #000;
   overflow: hidden;
@@ -22,24 +21,24 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 5%; /* proporsional dengan container */
+  height: 20px;
   background-color: #654321;
 }
 
 .chibi {
   position: absolute;
-  bottom: 5%;
-  left: 5%;
-  width: 6%;
-  height: 30%;
+  bottom: 20px;
+  left: 50px;
+  width: 60px;   /* proporsional lebih besar */
+  height: 60px;
   background-color: red;
 }
 
 .obstacle {
   position: absolute;
-  bottom: 5%;
-  width: 4%;
-  height: 30%;
+  bottom: 20px;
+  width: 30px;   /* proporsional lebih besar */
+  height: 60px;
   background-color: green;
 }
 
@@ -49,7 +48,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 1.5% 3%;
-  font-size: 2vw;
+  padding: 12px 25px;
+  font-size: 20px;
   cursor: pointer;
-  }
+}
