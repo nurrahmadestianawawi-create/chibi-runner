@@ -10,8 +10,8 @@ body {
 
 .game-container {
   position: relative;
-  width: 600px;
-  height: 200px;
+  width: 900px;   /* layar lebih besar */
+  height: 300px;  /* layar lebih besar */
   background-color: #fff;
   border: 2px solid #000;
   overflow: hidden;
@@ -29,16 +29,16 @@ body {
   position: absolute;
   bottom: 20px;
   left: 50px;
-  width: 40px;
-  height: 40px;
+  width: 60px;   /* proporsional lebih besar */
+  height: 60px;
   background-color: red;
 }
 
 .obstacle {
   position: absolute;
   bottom: 20px;
-  width: 20px;
-  height: 40px;
+  width: 30px;   /* proporsional lebih besar */
+  height: 60px;
   background-color: green;
 }
 
@@ -48,7 +48,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 10px 20px;
-  font-size: 18px;
+  padding: 12px 25px;
+  font-size: 20px;
   cursor: pointer;
   }
