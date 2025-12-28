@@ -1,1 +1,44 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ccefff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
 
+.game-container {
+  position: relative;
+  width: 600px;
+  height: 200px;
+  background-color: #fff;
+  border: 2px solid #000;
+  overflow: hidden;
+}
+
+#ground {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20px;
+  background-color: #654321;
+}
+
+.chibi {
+  position: absolute;
+  bottom: 20px;
+  left: 50px;
+  width: 40px;
+  height: 40px;
+  background-color: red; /* nanti diganti gambar chibi */
+}
+
+.obstacle {
+  position: absolute;
+  bottom: 20px;
+  right: 0;
+  width: 20px;
+  height: 40px;
+  background-color: green;
+  }
