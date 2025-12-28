@@ -1,18 +1,25 @@
 // -------------------------
-// Buat elemen game
+// Setup elemen game
 // -------------------------
 const body = document.body;
 
-// Container
 const container = document.createElement("div");
 container.style.position = "relative";
 container.style.width = "90vw";
 container.style.maxWidth = "1200px";
 container.style.height = "calc(90vw / 3)";
-container.style.background = "#fff";
-container.style.border = "2px solid #000";
 container.style.overflow = "hidden";
 body.appendChild(container);
+
+// Background bergerak
+const bg = document.createElement("div");
+bg.style.position = "absolute";
+bg.style.width = "200%";
+bg.style.height = "100%";
+bg.style.backgroundImage = "url('assets/background.png')";
+bg.style.backgroundRepeat = "repeat-x";
+bg.style.backgroundSize = "cover";
+container.appendChild(bg);
 
 // Ground
 const ground = document.createElement("div");
@@ -23,25 +30,34 @@ ground.style.height = "5%";
 ground.style.background = "#654321";
 container.appendChild(ground);
 
-// Chibi karakter
+// Chibi sprite
 const chibi = document.createElement("img");
-chibi.src = "assets/chibi.png"; // gambar chibi asli
+chibi.src = "assets/chibi_idle.png";
 chibi.style.position = "absolute";
 chibi.style.bottom = "5%";
 chibi.style.left = "5%";
 chibi.style.width = "6%";
 chibi.style.height = "30%";
-chibi.style.transition = "bottom 0.05s linear"; // smooth jump
 container.appendChild(chibi);
 
 // Obstacle
-const obstacle = document.createElement("div");
+const obstacle = document.createElement("img");
+obstacle.src = "assets/obstacle.png";
 obstacle.style.position = "absolute";
 obstacle.style.bottom = "5%";
 obstacle.style.width = "4%";
 obstacle.style.height = "30%";
-obstacle.style.background = "green";
 container.appendChild(obstacle);
+
+// Power-up
+const coin = document.createElement("img");
+coin.src = "assets/coin.png";
+coin.style.position = "absolute";
+coin.style.bottom = "35%";
+coin.style.width = "3%";
+coin.style.height = "10%";
+coin.style.display = "none";
+container.appendChild(coin);
 
 // Skor & status
 const scoreText = document.createElement("p");
@@ -78,9 +94,12 @@ container.appendChild(restartBtn);
 // -------------------------
 const jumpSound = new Audio("assets/jump.mp3");
 const hitSound = new Audio("assets/hit.mp3");
+const coinSound = new Audio("assets/coin.mp3");
+const bgm = new Audio("assets/bgm.mp3");
+bgm.loop = true;
 
 // -------------------------
-// Variabel
+// Variabel game
 // -------------------------
 let score = 0;
 let isJumping = false;
@@ -88,7 +107,9 @@ let jumpQueued = false;
 let gameStarted = false;
 let chibiBottom = 0;
 let obstaclePos = 100;
+let coinPos = 80;
 let moveAnimation;
+let bgPosition = 0;
 
 // -------------------------
 // Fungsi lompat
@@ -97,9 +118,10 @@ function jump() {
   if (isJumping) return;
   isJumping = true;
   jumpSound.play();
+  chibi.src = "assets/chibi_jump.png";
 
-  const maxHeight = 65; // % container
-  const jumpSpeed = 1.8; // % per frame
+  const maxHeight = 50; 
+  const jumpSpeed = 1.8;
 
   function up() {
     if (chibiBottom >= maxHeight) {
@@ -116,6 +138,7 @@ function jump() {
       chibiBottom = 0;
       chibi.style.bottom = "5%";
       isJumping = false;
+      chibi.src = "assets/chibi_idle.png";
       if (jumpQueued) {
         jumpQueued = false;
         jump();
@@ -159,14 +182,29 @@ function startGame() {
   chibi.style.bottom = "5%";
   obstaclePos = 100;
   obstacle.style.left = obstaclePos + "%";
+  coinPos = 80;
+  coin.style.left = coinPos + "%";
+  coin.style.display = "inline";
+
+  bgm.play();
 
   function move() {
-    obstaclePos -= 0.8; // kecepatan obstacle
+    // Background bergerak
+    bgPosition -= 0.5;
+    bg.style.backgroundPositionX = bgPosition + "px";
+
+    // Obstacle
+    obstaclePos -= 0.8;
     obstacle.style.left = obstaclePos + "%";
+
+    // Coin
+    coinPos -= 0.8;
+    coin.style.left = coinPos + "%";
 
     const chibiLeft = 5;
     const chibiHeight = 30;
 
+    // Tabrakan obstacle
     if (
       obstaclePos < chibiLeft + 6 &&
       obstaclePos > chibiLeft &&
@@ -176,15 +214,32 @@ function startGame() {
       restartBtn.style.display = "inline";
       hitSound.play();
       gameStarted = false;
+      bgm.pause();
       cancelAnimationFrame(moveAnimation);
       return;
     }
 
+    // Ambil coin
+    if (
+      coinPos < chibiLeft + 6 &&
+      coinPos > chibiLeft &&
+      chibiBottom + 5 >= 35 // bottom coin
+    ) {
+      score += 20;
+      scoreText.querySelector("#score").textContent = score;
+      coinSound.play();
+      coinPos = 120; // reset coin
+    }
+
+    // Reset obstacle
     if (obstaclePos <= -5) {
       obstaclePos = 100;
       score += 10;
       scoreText.querySelector("#score").textContent = score;
     }
+
+    // Reset coin
+    if (coinPos <= -5) coinPos = 80;
 
     moveAnimation = requestAnimationFrame(move);
   }
