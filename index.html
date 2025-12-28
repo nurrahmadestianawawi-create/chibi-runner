@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <title>Chibi Dino Runner</title>
-  <style>
-    body {
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #ccefff;
-      font-family: Arial, sans-serif;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="game-container">
+    <div id="chibi" class="chibi"></div>
+    <div id="ground"></div>
+    <div id="obstacle" class="obstacle"></div>
+    <p>Skor: <span id="score">0</span></p>
+    <p id="status"></p>
+    <button id="startBtn">Mulai</button>
+    <button id="restartBtn" style="display:none;">Ulang</button>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
