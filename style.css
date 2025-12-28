@@ -31,14 +31,20 @@ body {
   left: 50px;
   width: 40px;
   height: 40px;
-  background-color: red; /* nanti diganti gambar chibi */
+  background-color: red;
 }
 
 .obstacle {
   position: absolute;
   bottom: 20px;
-  right: 600px; /* posisi awal fix supaya tidak mundur */
   width: 20px;
   height: 40px;
   background-color: green;
-  }
+}
+
+button {
+  margin-top: 10px;
+  padding: 5px 15px;
+  font-size: 16px;
+  cursor: pointer;
+}
