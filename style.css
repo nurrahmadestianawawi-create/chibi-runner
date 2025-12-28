@@ -37,8 +37,8 @@ body {
 .obstacle {
   position: absolute;
   bottom: 20px;
-  right: 0px; /* mulai dari kanan */
+  right: 600px; /* posisi awal fix supaya tidak mundur */
   width: 20px;
   height: 40px;
   background-color: green;
-}
+  }
