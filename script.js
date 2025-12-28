@@ -49,7 +49,7 @@ function jump() {
 function moveObstacle() {
   let obstaclePos = 600; // mulai dari kanan container
   let moveInterval = setInterval(() => {
-    obstaclePos -= 5;
+    obstaclePos -= 5; // obstacle bergerak ke kiri
     obstacle.style.right = obstaclePos + "px";
 
     // cek tabrakan
@@ -60,13 +60,14 @@ function moveObstacle() {
       clearInterval(moveInterval);
     }
 
+    // reset obstacle kalau sudah lewat kiri
     if(obstaclePos <= -20) {
-      obstaclePos = 600; // ulang obstacle
-      score += 10; // tambah skor tiap obstacle berhasil dilewati
+      obstaclePos = 600; // ulang posisi
+      score += 10; // tambah skor
       scoreDisplay.textContent = score;
     }
-  }, 20);
+  }, 20); // jalannya obstacle tiap 20ms
 }
 
-// mulai obstacle jalan
+// panggil fungsi obstacle jalan
 moveObstacle();
