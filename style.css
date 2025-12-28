@@ -1,14 +1,13 @@
-body {
+/* Full screen canvas */
+body, html {
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #ccefff;
-  font-family: Arial, sans-serif;
+  padding: 0;
   overflow: hidden;
+  background: #87ceeb; /* fallback biru langit */
 }
 
-button {
-  cursor: pointer;
+canvas {
+  display: block;
+  margin: 0 auto;
+  background: #87ceeb;
 }
