@@ -98,8 +98,8 @@ function jump() {
   isJumping = true;
   jumpSound.play();
 
-  const maxHeight = 50; // % container
-  const jumpSpeed = 1.5; // % per frame
+  const maxHeight = 65; // % container
+  const jumpSpeed = 1.8; // % per frame
 
   function up() {
     if (chibiBottom >= maxHeight) {
