@@ -1,74 +1,78 @@
-// Ambil canvas
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
+// -------------------------
+// Buat elemen game
+// -------------------------
+const body = document.body;
 
-// Ukuran canvas
-canvas.width = window.innerWidth;
-canvas.height = 400;
+const container = document.createElement("div");
+container.style.position = "relative";
+container.style.width = "90vw";
+container.style.maxWidth = "1200px";
+container.style.height = "calc(90vw / 3)";
+container.style.background = "#fff";
+container.style.border = "2px solid #000";
+container.style.overflow = "hidden";
+body.appendChild(container);
 
-// Load gambar
-const chibiIdle = new Image();
-chibiIdle.src = "assets/chibi_idle.png";
+const ground = document.createElement("div");
+ground.style.position = "absolute";
+ground.style.bottom = "0";
+ground.style.width = "100%";
+ground.style.height = "5%";
+ground.style.background = "#654321";
+container.appendChild(ground);
 
-const chibiJump = new Image();
-chibiJump.src = "assets/chibi_jump.png";
+const chibi = document.createElement("div");
+chibi.style.position = "absolute";
+chibi.style.bottom = "5%";
+chibi.style.left = "5%";
+chibi.style.width = "6%";
+chibi.style.height = "30%";
+chibi.style.background = "red";
+container.appendChild(chibi);
 
-const background = new Image();
-background.src = "assets/background.png";
+const obstacle = document.createElement("div");
+obstacle.style.position = "absolute";
+obstacle.style.bottom = "5%";
+obstacle.style.width = "4%";
+obstacle.style.height = "30%";
+obstacle.style.background = "green";
+container.appendChild(obstacle);
 
-// Posisi chibi
-let chibi = {
-  x: 50,
-  y: canvas.height - 100, // posisi dasar
-  width: 80,
-  height: 80,
-  vy: 0,
-  gravity: 0.8,
-  jumpPower: -15,
-  isJumping: false
-};
+const scoreText = document.createElement("p");
+scoreText.innerHTML = "Skor: <span id='score'>0</span>";
+container.appendChild(scoreText);
 
-// Kontrol lompat dengan space atau tab layar
-document.addEventListener("keydown", (e) => {
-  if (e.code === "Space" && !chibi.isJumping) {
-    chibi.vy = chibi.jumpPower;
-    chibi.isJumping = true;
-  }
-});
+const statusText = document.createElement("p");
+container.appendChild(statusText);
 
-canvas.addEventListener("touchstart", () => {
-  if (!chibi.isJumping) {
-    chibi.vy = chibi.jumpPower;
-    chibi.isJumping = true;
-  }
-});
+const startBtn = document.createElement("button");
+startBtn.innerText = "Mulai";
+startBtn.style.position = "absolute";
+startBtn.style.top = "50%";
+startBtn.style.left = "50%";
+startBtn.style.transform = "translate(-50%, -50%)";
+startBtn.style.padding = "1.5% 3%";
+startBtn.style.fontSize = "2vw";
+startBtn.style.cursor = "pointer";
+container.appendChild(startBtn);
 
-// Game loop
-function update() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+const restartBtn = document.createElement("button");
+restartBtn.innerText = "Ulang";
+restartBtn.style.position = "absolute";
+restartBtn.style.top = "50%";
+restartBtn.style.left = "50%";
+restartBtn.style.transform = "translate(-50%, -50%)";
+restartBtn.style.padding = "1.5% 3%";
+restartBtn.style.fontSize = "2vw";
+restartBtn.style.cursor = "pointer";
+restartBtn.style.display = "none";
+container.appendChild(restartBtn);
 
-  // Gambar background
-  ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-
-  // Update posisi chibi
-  chibi.vy += chibi.gravity;
-  chibi.y += chibi.vy;
-
-  if (chibi.y >= canvas.height - chibi.height - 20) {
-    chibi.y = canvas.height - chibi.height - 20;
-    chibi.vy = 0;
-    chibi.isJumping = false;
-  }
-
-  // Gambar chibi
-  if (chibi.isJumping) {
-    ctx.drawImage(chibiJump, chibi.x, chibi.y, chibi.width, chibi.height);
-  } else {
-    ctx.drawImage(chibiIdle, chibi.x, chibi.y, chibi.width, chibi.height);
-  }
-
-  requestAnimationFrame(update);
-}
-
-// Mulai game
-update();
+// -------------------------
+// Variabel
+// -------------------------
+let score = 0;
+let isJumping = false;
+let jumpQueued = false;
+let gameStarted = false;
+let chibiBottom = 0;
