@@ -86,8 +86,8 @@ function jump() {
   if (isJumping) return;
   isJumping = true;
 
-  const maxHeight = 35; // % container
-  const jumpSpeed = 1.8; // naikin dari 0.7 → lebih cepat
+  const maxHeight = 50;   // ketinggian lompat lebih tinggi
+  const jumpSpeed = 1.5;  // kecepatan naik & turun sedang
 
   function up() {
     if (chibiBottom >= maxHeight) {
