@@ -1,4 +1,3 @@
-// Ambil elemen HTML
 let chibi = document.getElementById("chibi");
 let obstacle = document.getElementById("obstacle");
 let scoreDisplay = document.getElementById("score");
@@ -6,16 +5,17 @@ let status = document.getElementById("status");
 
 let score = 0;
 let isJumping = false;
-let gameStarted = false; // obstacle baru jalan setelah lompat/tap
+let gameStarted = false;
+let obstaclePos = 600; // posisi start obstacle
 
 // -----------------------------------
-// Fungsi lompat
+// Lompat
 // -----------------------------------
 function jump() {
   isJumping = true;
   let upInterval = setInterval(() => {
     let bottom = parseInt(chibi.style.bottom || 20);
-    if(bottom >= 100) { // tinggi maksimal lompat
+    if(bottom >= 100) {
       clearInterval(upInterval);
       let downInterval = setInterval(() => {
         bottom = parseInt(chibi.style.bottom);
@@ -32,43 +32,32 @@ function jump() {
 }
 
 // -----------------------------------
-// Event listener lompat
+// Event lompat (PC & HP)
 // -----------------------------------
-
-// Keyboard (PC)
 document.addEventListener("keydown", function(e) {
-  if(e.code === "Space") {
-    if(!isJumping) {
-      jump();
-      if(!gameStarted) {
-        moveObstacle();
-        gameStarted = true;
-      }
-    }
+  if(e.code === "Space" && !isJumping) {
+    jump();
+    if(!gameStarted) startGame();
   }
 });
 
-// Klik / tap layar (HP)
 document.addEventListener("click", function() {
   if(!isJumping) {
     jump();
-    if(!gameStarted) {
-      moveObstacle();
-      gameStarted = true;
-    }
+    if(!gameStarted) startGame();
   }
 });
 
 // -----------------------------------
-// Fungsi obstacle jalan
+// Mulai obstacle
 // -----------------------------------
-function moveObstacle() {
-  let obstaclePos = 600; // posisi awal sama seperti CSS
-  obstacle.style.right = obstaclePos + "px"; // pastikan sesuai
+function startGame() {
+  gameStarted = true;
+  obstacle.style.left = obstaclePos + "px";
 
   let moveInterval = setInterval(() => {
-    obstaclePos -= 5;
-    obstacle.style.right = obstaclePos + "px";
+    obstaclePos -= 5; // gerak ke kiri
+    obstacle.style.left = obstaclePos + "px";
 
     let chibiLeft = 50;
     let chibiBottom = parseInt(chibi.style.bottom || 20);
@@ -86,4 +75,4 @@ function moveObstacle() {
       scoreDisplay.textContent = score;
     }
   }, 20);
-                            }
+    }
